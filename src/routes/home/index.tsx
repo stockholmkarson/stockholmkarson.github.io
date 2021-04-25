@@ -1,11 +1,23 @@
 import React from "react";
-import CosmicContext from "../../contexts/CosmicContext";
+import Spinner from "../../components/Spinner/Spinner";
+import CosmicContext, { Object } from "../../contexts/CosmicContext";
+import DiscgolfMetrixResponse, {
+  DiscgolfMetrixResult,
+} from "../../types/DiscgolfMetrixCompetition";
+import DiscgolfMetrixCompetition from "../../types/DiscgolfMetrixCompetition";
+import "./index.css";
 
-interface HomePageMetadata {}
+interface HomePageMetadata {
+  news_content: string;
+  news_header: string;
+  news_subheader: string;
+}
 
 const Home = () => {
   const { bucket } = React.useContext(CosmicContext);
-  const [data, setData] = React.useState(undefined);
+  const [data, setData] = React.useState<Object<HomePageMetadata> | undefined>(
+    undefined
+  );
 
   React.useEffect(() => {
     if (bucket) {
@@ -15,7 +27,6 @@ const Home = () => {
           props: "slug,title,content,metadata", // Limit the API response data by props
         });
         setData(data.object);
-        console.log(data.object);
       };
       fetchBlog();
     }
@@ -23,7 +34,15 @@ const Home = () => {
 
   return (
     <div>
-      <h1>{data?.title}</h1>
+      {data?.metadata.news_header ||
+      data?.metadata.news_subheader ||
+      data?.metadata.news_content ? (
+        <div className="news-container">
+          <h1>{data.metadata.news_header}</h1>
+          <p>{data.metadata.news_subheader}</p>
+          <p>{data.metadata.news_content}</p>
+        </div>
+      ) : null}
       <div dangerouslySetInnerHTML={{ __html: data?.content }}></div>
     </div>
   );

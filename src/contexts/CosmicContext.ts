@@ -28,8 +28,9 @@ interface ObjectResponse<T = any> {
   object: Object<T>;
 }
 
-interface Object<T = any> {
+export interface Object<T = any> {
   title: string;
+  content?: string;
   metadata: T & { [key: string]: any };
 }
 

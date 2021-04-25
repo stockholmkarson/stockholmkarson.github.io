@@ -1,0 +1,29 @@
+.result-table {
+  margin-top: 20px;
+  background-color: rgb(216, 216, 216);
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.result-class {
+  margin-bottom: 16px;
+}
+
+.result-class h3 {
+  margin-bottom: 16px;
+}
+
+.result-class-grid {
+  display: grid;
+  grid-template-columns: 50px minmax(250px, 1fr) repeat(8, minmax(80px, 1fr)) minmax(
+      160px,
+      1fr
+    );
+}
+
+.result-class-grid span {
+  font-size: 1.2em;
+  padding: 12px 6px;
+  border: 1px solid #666;
+  background-color: rgb(216, 216, 216);
+}

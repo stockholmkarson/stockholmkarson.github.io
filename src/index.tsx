@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import AppRouter from "./appRouter";
 import CosmicContext from "./contexts/CosmicContext";
+import "./styles/reset.css";
+import "./styles/font.css";
+import "./styles/nav.css";
 
 const root = document.createElement("div");
 root.id = "app";

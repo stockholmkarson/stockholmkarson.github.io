@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import CosmicContext from "./contexts/CosmicContext";
 import GeneralPage from "./routes/general/index";
 import Home from "./routes/home/index";
+import Results from "./routes/results/index";
 
 const AppRouter = () => {
   const { bucket } = React.useContext(CosmicContext);
@@ -14,7 +15,6 @@ const AppRouter = () => {
           type: "pages",
           props: "metadata,content,slug",
         });
-        console.log(response);
         setPages(response.objects);
       };
       getPages();
@@ -22,7 +22,7 @@ const AppRouter = () => {
   }, [bucket]);
   return (
     <Router>
-      <div>
+      <div style={{ padding: "33px" }}>
         <nav>
           <ul>
             {pages
@@ -53,6 +53,7 @@ const AppRouter = () => {
                 <GeneralPage slug={p.slug} />
               </Route>
             ))}
+          <Route component={Results} path="/resultat"></Route>
           <Route>
             <Home />
           </Route>

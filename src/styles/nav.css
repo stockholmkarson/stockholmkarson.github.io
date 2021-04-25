@@ -1,0 +1,14 @@
+nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+nav ul {
+  display: flex;
+}
+nav ul li {
+  margin: 0px 16px;
+  padding: 16px;
+  font-weight: 500;
+}
