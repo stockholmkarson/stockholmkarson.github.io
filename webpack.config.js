@@ -25,7 +25,8 @@ module.exports = {
       cleanOnceBeforeBuildPatterns: ["**/*", "!CNAME"],
     }),
     new HtmlWebpackPlugin({
-      title: "Development",
+      title: "Kärsön Disc Golf",
+      favicon: "./src/resources/small_logo.png",
       hash: true,
     }),
     new webpack.DefinePlugin({

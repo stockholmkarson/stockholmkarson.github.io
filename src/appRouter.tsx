@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, HashRouter } from "react-router-dom";
 import CosmicContext from "./contexts/CosmicContext";
 import GeneralPage from "./routes/general/index";
 import Home from "./routes/home/index";
@@ -21,7 +21,7 @@ const AppRouter = () => {
     }
   }, [bucket]);
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <HashRouter basename={"/"}>
       <div>
         <nav>
           <ul>
@@ -61,7 +61,7 @@ const AppRouter = () => {
           </Switch>
         </div>
       </div>
-    </Router>
+    </HashRouter>
   );
 };
 
