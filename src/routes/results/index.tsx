@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  faChevronDown,
+  faChevronLeft,
+  faChevronRight,
+} from "../../../node_modules/@fortawesome/free-solid-svg-icons/index";
+import { FontAwesomeIcon } from "../../../node_modules/@fortawesome/react-fontawesome/index";
 import DiscgolfMetrixResponse, {
   DiscgolfMetrixResult,
 } from "../../types/DiscgolfMetrixCompetition";
@@ -9,7 +15,9 @@ const Results = () => {
     FilteredDisplayResults[] | undefined
   >(undefined);
 
-  const [fetching, setFetching] = React.useState(true);
+  const [fetching, setFetching] = React.useState(false);
+
+  const [indexesToExpand, setIndexesToExpand] = React.useState<number[]>([0]);
 
   React.useEffect(() => {
     const getResults = async () => {
@@ -79,6 +87,13 @@ const Results = () => {
       console.log(e);
     }
   };
+  const toggleTable = (index: number) => {
+    if (indexesToExpand.includes(index)) {
+      setIndexesToExpand(indexesToExpand.filter((i) => i !== index));
+    } else {
+      setIndexesToExpand(indexesToExpand.concat(index));
+    }
+  };
 
   if (fetching) {
     return null;
@@ -90,79 +105,97 @@ const Results = () => {
       {results &&
         results.map((r, i) => (
           <div className="result-table">
-            <h2 style={{ marginBottom: "16px" }}>
+            <h2 onClick={() => toggleTable(i)} className="result-table-header">
               {i === 0 ? "Kärsötouren 2021" : "Kärsötouren 2020"}
+              <FontAwesomeIcon
+                className="result-table-toggle"
+                icon={
+                  indexesToExpand.includes(i) ? faChevronDown : faChevronRight
+                }
+                size={"sm"}
+              />
             </h2>
-            {Object.keys(r).map((className) => (
-              <div className="result-class">
-                <h3>{className}</h3>
-                <div className="result-class-grid">
-                  <span
-                    style={{
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      fontSize: "1.5em",
-                    }}>
-                    Nr
-                  </span>
-                  <span style={{ fontWeight: "bold", fontSize: "1.5em" }}>
-                    Name
-                  </span>
-                  <span
-                    style={{
-                      gridColumn: "3/11",
-                      fontWeight: "bold",
-                      fontSize: "1.5em",
-                    }}>
-                    Results
-                  </span>
-                  <span
-                    style={{
-                      gridColumn: "11",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      fontSize: "1.5em",
-                    }}>
-                    Final result
-                  </span>
-                </div>
-                {Object.entries(r[className])
-                  .filter(([, a]) => a.results.length)
-                  .sort(([, a], [, b]) => {
-                    if (a.results.length > b.results.length) return -1;
-                    if (b.results.length > a.results.length) return 1;
+            {indexesToExpand.includes(i)
+              ? Object.keys(r).map((className) => (
+                  <div className="result-class">
+                    <h3>{className.toUpperCase()}</h3>
+                    <div className="result-class-grid">
+                      <span
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          fontSize: "1.1em",
+                        }}>
+                        Nr
+                      </span>
+                      <span style={{ fontWeight: "bold", fontSize: "1.1em" }}>
+                        Namn
+                      </span>
+                      {Array(8)
+                        .fill(1)
+                        .map((a, index) => (
+                          <span
+                            style={{
+                              textAlign: "center",
+                              fontWeight: "bold",
+                              fontSize: "1.1em",
+                            }}>
+                            {index + 1}
+                          </span>
+                        ))}
+                      <span
+                        style={{
+                          gridColumn: "11",
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          fontSize: "1.1em",
+                        }}>
+                        Summa
+                      </span>
+                    </div>
+                    {Object.entries(r[className])
+                      .filter(([, a]) => a.results.length)
+                      .sort(([, a], [, b]) => {
+                        if (a.results.length > b.results.length) return -1;
+                        if (b.results.length > a.results.length) return 1;
 
-                    if (b.finalScore > a.finalScore) {
-                      return -1;
-                    }
-                    if (a.finalScore > b.finalScore) {
-                      return 1;
-                    }
-                    return 0;
-                  })
-                  .map(([, userData], index) => {
-                    return (
-                      <div className="result-class-grid">
-                        <span style={{ textAlign: "center" }}>{index + 1}</span>
-                        <span>{userData.name}</span>
-                        {Array(8)
-                          .fill(1)
-                          .map((a, index) => (
+                        if (b.finalScore > a.finalScore) {
+                          return -1;
+                        }
+                        if (a.finalScore > b.finalScore) {
+                          return 1;
+                        }
+                        return 0;
+                      })
+                      .map(([, userData], index) => {
+                        return (
+                          <div className="result-class-grid">
                             <span style={{ textAlign: "center" }}>
-                              {userData.results[index]?.Diff > 0 ? "+" : ""}
-                              {userData.results[index]?.Diff ?? ""}
+                              {index + 1}
                             </span>
-                          ))}
-                        <span
-                          style={{ textAlign: "center", fontWeight: "bold" }}>
-                          {userData.finalScore > 0 ? "+" : ""}
-                          {userData.finalScore}
-                        </span>
-                      </div>
-                    );
-                  })}
-              </div>
-            ))}
+                            <span>{userData.name}</span>
+                            {Array(8)
+                              .fill(1)
+                              .map((a, index) => (
+                                <span style={{ textAlign: "center" }}>
+                                  {userData.results[index]?.Diff > 0 ? "+" : ""}
+                                  {userData.results[index]?.Diff ?? ""}
+                                </span>
+                              ))}
+                            <span
+                              style={{
+                                textAlign: "center",
+                                fontWeight: "bold",
+                              }}>
+                              {userData.finalScore > 0 ? "+" : ""}
+                              {userData.finalScore}
+                            </span>
+                          </div>
+                        );
+                      })}
+                  </div>
+                ))
+              : null}
           </div>
         ))}
     </div>

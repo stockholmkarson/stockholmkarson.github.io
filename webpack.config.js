@@ -20,9 +20,13 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false,
+      cleanOnceBeforeBuildPatterns: ["**/*", "!CNAME"],
+    }),
     new HtmlWebpackPlugin({
       title: "Development",
+      hash: true,
     }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
@@ -37,7 +41,7 @@ module.exports = {
   },
   devtool: "inline-source-map",
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".tsx", ".ts", ".js", ".json"],
   },
   output: {
     filename: "main.js",
