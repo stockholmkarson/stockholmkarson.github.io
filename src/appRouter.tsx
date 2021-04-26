@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Link, HashRouter } from "react-router-dom";
 import CosmicContext from "./contexts/CosmicContext";
+import Course from "./routes/course";
 import GeneralPage from "./routes/general/index";
 import Home from "./routes/home/index";
 import Results from "./routes/results/index";
@@ -28,13 +29,8 @@ const AppRouter = () => {
             {pages
               .filter((p) => p.metadata["include_in_navigation"])
               .map((p) => (
-                <li>
-                  <Link
-                    to={(p.metadata["navigation_title"] as string)
-                      ?.replace(" ", "-")
-                      .toLowerCase()}>
-                    {p.metadata["navigation_title"]}
-                  </Link>
+                <li key={`list_item_${p.metadata["navigation_title"]}`}>
+                  <Link to={p.slug}>{p.metadata["navigation_title"]}</Link>
                 </li>
               ))}
           </ul>
@@ -45,16 +41,13 @@ const AppRouter = () => {
               .filter((p) => !p.metadata["included_in_code_base"])
               .map((p) => (
                 <Route
-                  path={
-                    "/" +
-                    (p.metadata["navigation_title"] as string)
-                      ?.replace(" ", "-")
-                      .toLowerCase()
-                  }>
+                  key={`route_${p.metadata["navigation_title"]}`}
+                  path={"/" + p.slug}>
                   <GeneralPage slug={p.slug} />
                 </Route>
               ))}
-            <Route component={Results} path="/resultat"></Route>
+            <Route component={Results} path="/touren"></Route>
+            <Route component={Course} path="/banan"></Route>
             <Route>
               <Home />
             </Route>

@@ -5,7 +5,7 @@ import CosmicContext from "./contexts/CosmicContext";
 import "./styles/reset.css";
 import "./styles/font.css";
 import "./styles/nav.css";
-import "./styles/global.css";
+import "./styles/global.scss";
 
 const root = document.createElement("div");
 root.id = "app";
@@ -31,5 +31,8 @@ const App = () => {
     </CosmicContext.Provider>
   );
 };
+if ((module as any).hot) {
+  (module as any).hot.accept(".", function () {});
+}
 
 ReactDOM.render(<App />, document.getElementById("app"));

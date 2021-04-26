@@ -1,0 +1,25 @@
+.course-content {
+  max-width: 1200px;
+  margin: auto;
+
+  .course-info-image-download {
+    margin-bottom: 16px;
+    font-size: 1.1em;
+    display: inline-flex;
+    background: #015ca9;
+    border-radius: 5px;
+    padding: 12px;
+    text-decoration: none;
+    color: white;
+  }
+
+  .course-info-image {
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  h2 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}

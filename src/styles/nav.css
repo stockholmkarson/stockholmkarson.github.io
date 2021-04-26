@@ -1,14 +1,19 @@
 nav {
   display: flex;
-  justify-content: center;
   width: 100%;
+  background-color: #343a40;
 }
 
 nav ul {
   display: flex;
 }
 nav ul li {
-  margin: 0px 16px;
+  margin: 0px 8px;
   padding: 16px;
   font-weight: 500;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
 }

@@ -14,8 +14,12 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
@@ -39,6 +43,7 @@ module.exports = {
     compress: true,
     port: 9000,
     historyApiFallback: true,
+    hot: true,
   },
   devtool: "inline-source-map",
   resolve: {

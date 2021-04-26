@@ -2,11 +2,13 @@
 
 body {
   font-family: "Noto Sans JP", sans-serif;
+  color: #222;
 }
 
 h1 {
   font-size: 2.5em;
   font-weight: 500;
+  border-bottom: 4px solid #015ca9;
 }
 
 h2 {
@@ -17,4 +19,9 @@ h2 {
 h3 {
   font-size: 1.75em;
   font-weight: 500;
+}
+
+p,
+li {
+  line-height: 1.3em;
 }

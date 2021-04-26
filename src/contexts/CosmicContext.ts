@@ -8,7 +8,7 @@ interface ICosmicContext {
   bucket: Bucket;
 }
 
-interface Bucket {
+export interface Bucket {
   getObject: <T = any>(props: GetObjectProps) => ObjectResponse<T>;
   getObjects: (props: GetObjectsProps) => any;
 }
@@ -25,10 +25,10 @@ interface GetObjectProps {
 }
 
 interface ObjectResponse<T = any> {
-  object: Object<T>;
+  object: CosmicObject<T>;
 }
 
-export interface Object<T = any> {
+export interface CosmicObject<T = any> {
   title: string;
   content?: string;
   metadata: T & { [key: string]: any };

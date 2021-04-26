@@ -1,0 +1,48 @@
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+.bag-content-container {
+  background: rgb(235, 235, 235);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  p {
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  li {
+    list-style: circle;
+    margin-left: 18px;
+    margin-bottom: 6px;
+  }
+  a {
+    text-decoration: none;
+    font-weight: 500;
+    color: inherit;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+.content-container {
+  padding: 33px 12px;
+}
+
+@media screen and (min-width: 480px) {
+  .content-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .content-container {
+    padding-left: 33px;
+    padding-right: 33px;
+  }
+}
