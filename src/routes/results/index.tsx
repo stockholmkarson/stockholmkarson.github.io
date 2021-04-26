@@ -5,6 +5,7 @@ import {
   faChevronRight,
 } from "../../../node_modules/@fortawesome/free-solid-svg-icons/index";
 import { FontAwesomeIcon } from "../../../node_modules/@fortawesome/react-fontawesome/index";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import DiscgolfMetrixResponse, {
   DiscgolfMetrixResult,
 } from "../../types/DiscgolfMetrixCompetition";
@@ -18,6 +19,11 @@ const Results = () => {
   const [fetching, setFetching] = React.useState(false);
 
   const [indexesToExpand, setIndexesToExpand] = React.useState<number[]>([0]);
+  const [usersToExpand, setUsersToExpand] = React.useState<
+    { userId: string; index: number }[]
+  >([]);
+
+  const { width, height } = useWindowDimensions();
 
   React.useEffect(() => {
     const getResults = async () => {
@@ -95,6 +101,20 @@ const Results = () => {
     }
   };
 
+  const toggleExpandResults = (userId: string, index: number) => {
+    const idx = usersToExpand.findIndex(
+      (ute) => ute.userId === userId && ute.index === index
+    );
+    if (idx !== -1) {
+      const newUsers = usersToExpand
+        .slice(0, idx)
+        .concat(usersToExpand.slice(idx + 1, usersToExpand.length));
+      setUsersToExpand(newUsers);
+    } else {
+      setUsersToExpand(usersToExpand.concat({ userId, index }));
+    }
+  };
+
   if (fetching) {
     return null;
   }
@@ -117,83 +137,138 @@ const Results = () => {
             </h2>
             {indexesToExpand.includes(i)
               ? Object.keys(r).map((className) => (
-                  <div className="result-class">
+                  <>
                     <h3>{className.toUpperCase()}</h3>
-                    <div className="result-class-grid">
-                      <span
-                        style={{
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          fontSize: "1.1em",
-                        }}>
-                        Nr
-                      </span>
-                      <span style={{ fontWeight: "bold", fontSize: "1.1em" }}>
-                        Namn
-                      </span>
-                      {Array(8)
-                        .fill(1)
-                        .map((a, index) => (
-                          <span
-                            style={{
-                              textAlign: "center",
-                              fontWeight: "bold",
-                              fontSize: "1.1em",
-                            }}>
-                            {index + 1}
-                          </span>
-                        ))}
-                      <span
-                        style={{
-                          gridColumn: "11",
-                          textAlign: "center",
-                          fontWeight: "bold",
-                          fontSize: "1.1em",
-                        }}>
-                        Summa
-                      </span>
-                    </div>
-                    {Object.entries(r[className])
-                      .filter(([, a]) => a.results.length)
-                      .sort(([, a], [, b]) => {
-                        if (a.results.length > b.results.length) return -1;
-                        if (b.results.length > a.results.length) return 1;
+                    <div className="result-class">
+                      <div className="result-class-grid">
+                        <span
+                          style={{
+                            textAlign: "right",
+                            fontWeight: "bold",
+                            fontSize: "1.1em",
+                          }}>
+                          Nr
+                        </span>
+                        <span style={{ fontWeight: "bold", fontSize: "1.1em" }}>
+                          Namn
+                        </span>
+                        {width > 480 &&
+                          Array(8)
+                            .fill(1)
+                            .map((a, index) => (
+                              <span
+                                style={{
+                                  textAlign: "center",
+                                  fontWeight: "bold",
+                                  fontSize: "1.1em",
+                                }}>
+                                {index + 1}
+                              </span>
+                            ))}
+                        <span
+                          style={{
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            fontSize: "1.1em",
+                          }}>
+                          Summa
+                        </span>
+                      </div>
+                      {Object.entries(r[className])
+                        .filter(([, a]) => a.results.length)
+                        .sort(([, a], [, b]) => {
+                          if (a.results.length > b.results.length) return -1;
+                          if (b.results.length > a.results.length) return 1;
 
-                        if (b.finalScore > a.finalScore) {
-                          return -1;
-                        }
-                        if (a.finalScore > b.finalScore) {
-                          return 1;
-                        }
-                        return 0;
-                      })
-                      .map(([, userData], index) => {
-                        return (
-                          <div className="result-class-grid">
-                            <span style={{ textAlign: "center" }}>
-                              {index + 1}
-                            </span>
-                            <span>{userData.name}</span>
-                            {Array(8)
-                              .fill(1)
-                              .map((a, index) => (
-                                <span style={{ textAlign: "center" }}>
-                                  {userData.results[index]?.Diff > 0 ? "+" : ""}
-                                  {userData.results[index]?.Diff ?? ""}
+                          if (b.finalScore > a.finalScore) {
+                            return -1;
+                          }
+                          if (a.finalScore > b.finalScore) {
+                            return 1;
+                          }
+                          return 0;
+                        })
+                        .map(([userId, userData], index) => {
+                          return (
+                            <>
+                              <div
+                                onClick={() =>
+                                  width <= 480
+                                    ? toggleExpandResults(userId, i)
+                                    : {}
+                                }
+                                className={`result-class-grid ${
+                                  usersToExpand.some(
+                                    (u) => u.index === i && u.userId === userId
+                                  )
+                                    ? "expanded"
+                                    : ""
+                                }`}>
+                                {width <= 480 && (
+                                  <FontAwesomeIcon
+                                    style={{
+                                      position: "absolute",
+                                      left: "6px",
+                                      top: "50%",
+                                      transform: "translateY(-70%)",
+                                    }}
+                                    size={"xs"}
+                                    icon={
+                                      usersToExpand.some(
+                                        (u) =>
+                                          u.index === i && u.userId === userId
+                                      )
+                                        ? faChevronDown
+                                        : faChevronRight
+                                    }
+                                  />
+                                )}
+                                <span style={{ textAlign: "right" }}>
+                                  {index + 1}
                                 </span>
-                              ))}
-                            <span
-                              style={{
-                                textAlign: "center",
-                                fontWeight: "bold",
-                              }}>
-                              {userData.finalScore > 0 ? "+" : ""}
-                              {userData.finalScore}
-                            </span>
-                          </div>
-                        );
-                      })}
-                  </div>
+                                <span>{userData.name}</span>
+                                {width > 480 &&
+                                  Array(8)
+                                    .fill(1)
+                                    .map((a, index) => (
+                                      <span style={{ textAlign: "center" }}>
+                                        {userData.results[index]?.Diff > 0
+                                          ? "+"
+                                          : ""}
+                                        {userData.results[index]?.Diff ?? ""}
+                                      </span>
+                                    ))}
+                                <span
+                                  style={{
+                                    textAlign: "center",
+                                    fontWeight: "bold",
+                                  }}>
+                                  {userData.finalScore > 0 ? "+" : ""}
+                                  {userData.finalScore}
+                                </span>
+                              </div>
+                              {width <= 480 &&
+                              usersToExpand.some(
+                                (u) => u.index === i && u.userId === userId
+                              ) ? (
+                                <div className="result-class-grid-mobile-results">
+                                  {Array(8)
+                                    .fill(1)
+                                    .map((a, index) => (
+                                      <span style={{ textAlign: "center" }}>
+                                        {userData.results[index]?.Diff > 0
+                                          ? "+"
+                                          : ""}
+                                        {userData.results[index]?.Diff ?? ""}
+                                      </span>
+                                    ))}
+                                </div>
+                              ) : null}
+                            </>
+                          );
+                        })}
+                    </div>
+                  </>
                 ))
               : null}
           </div>

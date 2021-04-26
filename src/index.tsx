@@ -5,6 +5,7 @@ import CosmicContext from "./contexts/CosmicContext";
 import "./styles/reset.css";
 import "./styles/font.css";
 import "./styles/nav.css";
+import "./styles/global.css";
 
 const root = document.createElement("div");
 root.id = "app";

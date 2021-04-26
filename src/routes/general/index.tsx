@@ -12,7 +12,6 @@ const GeneralPage = ({ slug }: { slug: string }) => {
           props: "title,content",
         });
         setData(data.object);
-        console.log(data.object);
       };
       fetchBlog();
     }

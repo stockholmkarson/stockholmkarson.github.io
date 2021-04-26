@@ -21,8 +21,8 @@ const AppRouter = () => {
     }
   }, [bucket]);
   return (
-    <Router>
-      <div style={{ padding: "33px" }}>
+    <Router basename={process.env.PUBLIC_URL}>
+      <div>
         <nav>
           <ul>
             {pages
@@ -39,25 +39,27 @@ const AppRouter = () => {
               ))}
           </ul>
         </nav>
-        <Switch>
-          {pages
-            .filter((p) => !p.metadata["included_in_code_base"])
-            .map((p) => (
-              <Route
-                path={
-                  "/" +
-                  (p.metadata["navigation_title"] as string)
-                    ?.replace(" ", "-")
-                    .toLowerCase()
-                }>
-                <GeneralPage slug={p.slug} />
-              </Route>
-            ))}
-          <Route component={Results} path="/resultat"></Route>
-          <Route>
-            <Home />
-          </Route>
-        </Switch>
+        <div className="content-container">
+          <Switch>
+            {pages
+              .filter((p) => !p.metadata["included_in_code_base"])
+              .map((p) => (
+                <Route
+                  path={
+                    "/" +
+                    (p.metadata["navigation_title"] as string)
+                      ?.replace(" ", "-")
+                      .toLowerCase()
+                  }>
+                  <GeneralPage slug={p.slug} />
+                </Route>
+              ))}
+            <Route component={Results} path="/resultat"></Route>
+            <Route>
+              <Home />
+            </Route>
+          </Switch>
+        </div>
       </div>
     </Router>
   );
