@@ -1,0 +1,23 @@
+nav {
+  display: flex;
+  background-color: #343a40;
+  width: 100%;
+  ul {
+    display: flex;
+
+    li {
+      margin: 0px 8px;
+      padding: 16px 6px;
+      font-weight: 500;
+
+      a {
+        text-decoration: none;
+        color: white;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

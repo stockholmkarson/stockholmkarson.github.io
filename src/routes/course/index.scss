@@ -10,7 +10,12 @@
     border-radius: 5px;
     padding: 12px;
     text-decoration: none;
+    margin-right: 8px;
     color: white;
+
+    &:hover {
+      background: darken(#015ca9, 10);
+    }
   }
 
   .course-info-image {

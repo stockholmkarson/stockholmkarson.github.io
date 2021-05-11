@@ -4,7 +4,7 @@ import AppRouter from "./appRouter";
 import CosmicContext from "./contexts/CosmicContext";
 import "./styles/reset.css";
 import "./styles/font.css";
-import "./styles/nav.css";
+import "./styles/nav.scss";
 import "./styles/global.scss";
 
 const root = document.createElement("div");

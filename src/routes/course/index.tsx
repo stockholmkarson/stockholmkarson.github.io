@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import CosmicContext from "../../contexts/CosmicContext";
 import useBucketData from "../../hooks/useBucketData";
 import "./index.scss";
-import CourseImage from "../../resources/course.png";
+import CourseImage from "../../resources/course_neutral.png";
+import CourseImageAlt from "../../resources/course.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,6 +27,13 @@ const Course = () => {
           href={CourseImage}>
           <FontAwesomeIcon icon={faDownload} style={{ marginRight: "8px" }} />
           Ladda ner bankarta
+        </a>
+        <a
+          className="course-info-image-download"
+          download="karson_bankarta.png"
+          href={CourseImageAlt}>
+          <FontAwesomeIcon icon={faDownload} style={{ marginRight: "8px" }} />
+          Ladda ner bankarta med bansträckningar
         </a>
         <img className="course-info-image" src={CourseImage} />
       </div>

@@ -1,32 +1,49 @@
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import Spinner from "../../components/Spinner/Spinner";
-import CosmicContext, { CosmicObject } from "../../contexts/CosmicContext";
+import CosmicContext from "../../contexts/CosmicContext";
 import useBucketData from "../../hooks/useBucketData";
-import DiscgolfMetrixResponse, {
-  DiscgolfMetrixResult,
-} from "../../types/DiscgolfMetrixCompetition";
-import DiscgolfMetrixCompetition from "../../types/DiscgolfMetrixCompetition";
-import "./index.css";
+import "./index.scss";
 
 interface HomePageMetadata {
   news_content: string;
   news_header: string;
   news_subheader: string;
+  cover_image: any;
+  alert_content: string;
 }
 
 const Home = () => {
   const { bucket } = React.useContext(CosmicContext);
-  const { data: pageData, dataFetched } = useBucketData(bucket, "home");
+  const { data: pageData, dataFetched } = useBucketData<HomePageMetadata>(
+    bucket,
+    "home"
+  );
+
+  if (!dataFetched) {
+    return null;
+  }
 
   return (
     <div>
-      {pageData?.metadata.news_header ||
+      <div className="cover_image_container">
+        <img className="cover_image" src={pageData.metadata.cover_image.url} />
+      </div>
+      <h1>{pageData.title}</h1>
+      {pageData?.metadata.news_heading ||
       pageData?.metadata.news_subheader ||
       pageData?.metadata.news_content ? (
-        <div className="news-container">
-          <h1>{pageData.metadata.news_header}</h1>
-          <p>{pageData.metadata.news_subheader}</p>
-          <p>{pageData.metadata.news_content}</p>
+        <div className="bag-content-container alert-container">
+          {pageData.metadata.news_heading && (
+            <h4>{pageData.metadata.news_heading}</h4>
+          )}
+          {pageData.metadata.alert_content && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: pageData.metadata.alert_content,
+              }}
+            />
+          )}
         </div>
       ) : null}
       <div dangerouslySetInnerHTML={{ __html: pageData?.content }}></div>
