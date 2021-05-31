@@ -17,7 +17,7 @@ const Home = () => {
   const { bucket } = React.useContext(CosmicContext);
   const { data: pageData, dataFetched } = useBucketData<HomePageMetadata>(
     bucket,
-    "home"
+    "5f8443371be0170007245a1c"
   );
 
   if (!dataFetched) {

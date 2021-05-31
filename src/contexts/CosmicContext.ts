@@ -19,8 +19,9 @@ interface GetObjectsProps {
 }
 
 interface GetObjectProps {
-  slug: string;
+  slug?: string;
   props: string;
+  id?: string;
   [key: string]: any;
 }
 

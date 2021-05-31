@@ -24,12 +24,11 @@ const App = () => {
     });
     setBucket(bucket);
   }, []);
-
-  return (
-    <CosmicContext.Provider value={{ bucket: bucket }}>
-      <AppRouter />
-    </CosmicContext.Provider>
-  );
+    return (
+      <CosmicContext.Provider value={{ bucket: bucket }}>
+        <AppRouter />
+      </CosmicContext.Provider>
+    );
 };
 if ((module as any).hot) {
   (module as any).hot.accept(".", function () {});

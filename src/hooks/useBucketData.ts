@@ -10,7 +10,7 @@ export default function useBucketData<T>(bucket: Bucket, slug: string) {
     if (bucket) {
       const fetchBlog = async () => {
         const data = await bucket.getObject<T>({
-          slug,
+          id: slug,
           props: "slug,title,content,metadata", // Limit the API response data by props
         });
         setData(data.object);
